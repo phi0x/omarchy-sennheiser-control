@@ -20,3 +20,11 @@ USB product identifier 3542:3001. The controller does not run as root.
 Do not include secrets or identifying device data in public issues. For a
 security-sensitive report, use the repository's private vulnerability reporting
 feature when available; avoid publishing exploit details before a fix is ready.
+
+## No warranty or guaranteed recovery
+
+This experimental software is provided as is, at the user's risk. No warranty of
+compatibility, reliability, hardware safety, or recovery is made. Authors and
+contributors exclude liability, including for equipment damage, data loss and
+downtime, to the maximum extent permitted by applicable law. See the project
+license for the complete terms. Mandatory legal protections are not waived.

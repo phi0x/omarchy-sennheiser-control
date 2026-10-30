@@ -4,6 +4,14 @@ An unofficial, experimental Omarchy top-bar widget for Sennheiser BTD 700 and HD
 next to the audio widget. Uses Omarchy's popup, theme and focus handling.
 Device control stays local. On-demand firmware checks contact Sennheiser’s official catalog.
 
+> **NO WARRANTY — USE AT YOUR OWN RISK.** This experimental, unofficial software
+> is provided “as is,” without warranties of any kind. To the maximum extent
+> permitted by applicable law, its authors and contributors accept no liability
+> for device or computer damage, data loss, downtime, lost profits, or other
+> claims or losses arising from its use, modification, or distribution. No
+> compatibility, reliability, or recovery outcome is guaranteed. The license
+> contains the full disclaimer; mandatory legal rights are not excluded.
+
 ## Install or update
 
 Requires Omarchy Quattro's Quickshell plugin system on Linux, Python 3.12+,
