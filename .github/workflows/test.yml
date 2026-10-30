@@ -1,0 +1,25 @@
+name: Tests
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      - name: Install Bluetooth development headers
+        run: sudo apt-get update && sudo apt-get install -y gcc libbluetooth-dev
+      - name: Python tests
+        run: python -m unittest discover -s tests -v
+      - name: UI rules
+        run: node tests/test_ui_rules.js
+      - name: Shell syntax
+        run: bash -n install.sh install-device-access.sh

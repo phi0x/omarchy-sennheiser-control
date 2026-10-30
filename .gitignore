@@ -1,0 +1,21 @@
+__pycache__/
+native/sdp-channel
+
+# Local credentials, device state, logs and build output
+.env
+.env.*
+*.pem
+*.key
+id_ed25519*
+connection.json
+presets.json
+*.log
+*.pklg
+*.pcap
+*.pcapng
+*.core
+.sennheiser-managed
+.pytest_cache/
+.venv/
+dist/
+build/

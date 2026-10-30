@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "phi0x.sennheiser",
+  "name": "Sennheiser Control",
+  "version": "0.1.0",
+  "author": "phi0x",
+  "description": "BTD 700 and HDB 630 controls",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Widget.qml"
+  },
+  "barWidget": {
+    "displayName": "Sennheiser",
+    "category": "Audio",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
