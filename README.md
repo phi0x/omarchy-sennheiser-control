@@ -193,6 +193,13 @@ See [firmware investigation](docs/firmware-research.md) for verified metadata,
 transport findings and remaining work before native flashing can be supported.
 
 
+## Future development
+
+See the [roadmap](ROADMAP.md) for potential native firmware installation,
+model-specific validation and recovery work, other possible improvements, and
+how future releases can update the same public repository and marketplace
+listing. These are plans to investigate, not current features or release promises.
+
 ## License
 
 This project is [source-available under the Sennheiser Control license](LICENSE.md).

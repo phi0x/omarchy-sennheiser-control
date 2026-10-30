@@ -5,6 +5,10 @@ dongle model, firmware versions, and steps to reproduce. Remove Bluetooth
 addresses, device serials, broadcast passwords, tokens, and private desktop
 content from logs and screenshots before sharing them.
 
+See [ROADMAP.md](ROADMAP.md) for potential future work. Firmware installation
+changes require protocol and hardware validation; do not describe catalog checks
+or mocked tests as successful flashing.
+
 The supported hardware is HDB 630 with BTD 700. Other Sennheiser devices may use
 different protocols; do not send unverified commands to them. Firmware checks are
 read-only. This project does not implement firmware flashing.
