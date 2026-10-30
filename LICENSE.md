@@ -1,6 +1,5 @@
-# Proposed Sennheiser Control Source-Available License 1.0
+# Sennheiser Control Source-Available License 1.0
 
-Draft for owner review before public release.
 
 Copyright (c) 2026 phi0x
 

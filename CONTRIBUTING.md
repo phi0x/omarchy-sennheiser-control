@@ -31,3 +31,8 @@ hardware worker or replay settings on reconnection.
 
 Runtime user state is outside the checkout in XDG_STATE_HOME, XDG_CACHE_HOME and
 XDG_RUNTIME_DIR. Do not commit it. Preserve all third-party license notices.
+
+Contributions are accepted under the applicable license for the files changed:
+the project source-available license for project-owned code, MIT for
+backend/headphones.py, and LGPL-2.1-only for backend/dongle.py. Preserve existing
+notices and identify any third-party code and its license in your pull request.

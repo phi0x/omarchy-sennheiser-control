@@ -193,11 +193,21 @@ See [firmware investigation](docs/firmware-research.md) for verified metadata,
 transport findings and remaining work before native flashing can be supported.
 
 
-## License status
+## License
 
-The proposed release license is in LICENSE.proposed.md and is awaiting owner
-confirmation before public release. It permits forks, modifications and business
-use, with a no-sale condition on this application and substantially derived apps.
-Paid installation and support remain permitted under the proposed terms. This is
-source-available licensing, not OSI-approved open source. The MIT and LGPL
-components identified in THIRD_PARTY.md keep their own licenses and rights.
+This project is [source-available under the Sennheiser Control license](LICENSE.md).
+You may fork, modify and use it, including in a business. You may charge for
+installation, integration, maintenance or support. You may include it as a free
+component of a paid product if the app remains separately available without
+charge and recipients keep their license rights.
+
+You may not sell copies of the app or substantially derived/rebranded versions,
+or charge for downloads, activation or access to the app itself. This custom
+no-sale condition means the project is not OSI-approved open-source software.
+The MIT and LGPL components identified in [THIRD_PARTY.md](THIRD_PARTY.md) retain
+their own licenses and redistribution rights.
+
+**No warranty; use at your own risk.** Authors and contributors exclude liability,
+including for equipment damage, data loss and downtime, to the maximum extent
+permitted by applicable law. See the license for the full terms and mandatory-law
+exceptions.
