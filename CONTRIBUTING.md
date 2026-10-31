@@ -1,5 +1,8 @@
 # Contributing
 
+Coding agents should start with [AGENTS.md](AGENTS.md) for the architecture,
+development rules, verification and deployment guidance.
+
 Issues and pull requests are welcome. Include the Omarchy version, headset and
 dongle model, firmware versions, and steps to reproduce. Remove Bluetooth
 addresses, device serials, broadcast passwords, tokens, and private desktop
