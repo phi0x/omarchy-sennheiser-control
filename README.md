@@ -2,7 +2,8 @@
 
 An unofficial, experimental Omarchy top-bar widget for Sennheiser BTD 700 and HDB 630. Click the headphones icon
 next to the audio widget. Uses Omarchy's popup, theme and focus handling.
-Device control stays local. On-demand firmware checks contact Sennheiser’s official catalog.
+Device control stays local. On-demand firmware checks contact Sennheiser's official
+catalog; plugin update checks contact the public GitHub Releases API.
 
 > **NO WARRANTY — USE AT YOUR OWN RISK.** This experimental, unofficial software
 > is provided “as is,” without warranties of any kind. To the maximum extent
@@ -87,7 +88,12 @@ omarchy-shell sennheiser-control status
 Status reads verified on a real BTD 700, firmware 3.11.0. Headphone commands are based on the upstream HDB 630 implementation. Core controls
 and new read paths have been checked on the connected headset; setting writes
 also have encoding and validation tests.
-The shared controller starts on first opening and polls every five seconds.
+The shared controller starts on first opening. It reads settings when opened,
+explicitly refreshed, changed, or reconnected. Between requests, five-second
+maintenance checks inspect USB presence and the existing Bluetooth socket without
+sending status commands. Repeated bulk HID/GAIA queries caused audible crackles
+in a listening comparison, so settings are cached rather than polled during
+steady playback. Use Refresh status for changes made in another controller.
 Each monitor attaches to it; it releases handles when all monitor widgets unload. Avoid concurrent controller instances when
 probing. Run `python -B backend/service.py` for the line-delimited JSON worker;
 stdin EOF shuts it down. Example request: `{"action":"refresh"}`.
@@ -199,6 +205,30 @@ install firmware: Dongle Control for BTD 700, Smart Control Plus for HDB 630.
 
 See [firmware investigation](docs/firmware-research.md) for verified metadata,
 transport findings and remaining work before native flashing can be supported.
+
+## Plugin updates
+
+In Updates, **Check for plugin updates** compares this installation's manifest
+version with the latest stable published GitHub release. It shows installed and
+latest versions, the check time, and a release-notes link. A newer release marks
+the Updates tab with a dot. Failed checks, rate limits, missing releases and an
+unreadable installed version are distinct from an up-to-date result. Drafts and
+prereleases are not offered.
+
+Checks happen only when requested. No GitHub login, token, device identifier or
+firmware image is sent, and the widget never installs updates automatically.
+Standard Git-managed installations update through:
+
+```sh
+omarchy plugin update phi0x.sennheiser
+```
+
+Development copies update from their checkout with `git pull` and `./install.sh`;
+inspect the installed plugin ID first if using an older development identity.
+Git updates obtain current upstream code and do not confer marketplace approval.
+Publish a stable GitHub Release with a numeric `vMAJOR.MINOR.PATCH` tag when
+releasing a new version; a Git push or a bare tag alone does not advertise an
+update through this checker.
 
 
 ## Future development

@@ -5,10 +5,13 @@ user's permissions inside Omarchy's shell and starts a local Python controller.
 Review the source before installation. The backend uses a private Unix socket
 and no network listener.
 
-The only network feature is an explicitly requested check of Sennheiser's official
-firmware catalog using verified HTTPS. It sends public product identifiers, not
-Bluetooth addresses or device serials. Firmware images are not downloaded or
-flashed. External updater buttons open official product/software pages.
+Network access happens only for explicitly requested version checks over verified
+HTTPS: Sennheiser's official firmware catalog, and the public GitHub Releases API
+for this plugin. Firmware checks send public product identifiers, not Bluetooth
+addresses or device serials. Plugin checks require no GitHub credentials and fetch
+release metadata only. No firmware images or plugin packages are downloaded or
+installed. External buttons open official software pages or this project's release
+notes. A failed check is never reported as an up-to-date result.
 
 Broadcast passwords are forwarded locally to the dongle and are not returned in
 shared status or written to the preset library. The active desktop user can

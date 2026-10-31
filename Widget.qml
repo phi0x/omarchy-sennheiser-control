@@ -21,6 +21,8 @@ Panel {
     readonly property var dongle: snapshot.dongle || ({})
     readonly property var hp: snapshot.headphones || ({})
     readonly property var values: hp.values || ({})
+    readonly property var pluginInfo: snapshot.plugin || ({})
+    readonly property var pluginUpdate: snapshot.plugin_update || ({})
     readonly property bool blockingBusy: !!snapshot.busy && snapshot.operation !== "setting"
     property int broadcastRevision: snapshot.broadcast_revision || 0
     onBroadcastRevisionChanged: {
@@ -400,7 +402,7 @@ Panel {
                         onClicked: root.tab = "eq"
                     }
                     Action {
-                        text: "Updates"
+                        text: root.pluginUpdate.status === "update-available" ? "Updates •" : "Updates"
                         checked: root.tab === "updates"
                         checkable: true
                         onClicked: root.tab = "updates"
@@ -1109,6 +1111,49 @@ Panel {
                         visible: root.tab === "updates"
                         Layout.fillWidth: true
                         spacing: 20
+                        Section {
+                            title: "Plugin updates"
+                            subtitle: "Sennheiser Control for Omarchy"
+                            Copy {
+                                text: "Installed: " + (root.pluginInfo.version || "Version unavailable")
+                            }
+                            Copy {
+                                visible: !!root.pluginUpdate.latest
+                                text: "Latest release: " + (root.pluginUpdate.latest || "")
+                            }
+                            Copy {
+                                text: {
+                                    switch (root.pluginUpdate.status) {
+                                    case "update-available": return "A newer plugin version is available. Read the release notes, then update your installation.";
+                                    case "up-to-date": return "You have the latest published release.";
+                                    case "newer-than-release": return "Your installed version is newer than the latest published release.";
+                                    case "unknown-installed": return "A release was found, but the installed version could not be read.";
+                                    case "no-release": return "No published plugin release was found.";
+                                    case "check-failed": return root.pluginUpdate.error || "Could not verify plugin updates. Try again later.";
+                                    default: return "Check GitHub for a newer plugin release. Checks run only when requested.";
+                                    }
+                                }
+                            }
+                            Action {
+                                text: "Check for plugin updates"
+                                onClicked: root.send({ action: "plugin_update_check" })
+                            }
+                            Action {
+                                visible: !!root.pluginUpdate.release_url
+                                text: "Open release notes"
+                                onClicked: Qt.openUrlExternally(root.pluginUpdate.release_url)
+                            }
+                            Copy {
+                                visible: root.pluginUpdate.status === "update-available"
+                                text: root.pluginInfo.git_managed && root.pluginInfo.id ? "Update in a terminal:\nomarchy plugin update " + root.pluginInfo.id : "Development copy: pull the repository and deploy with ./install.sh. Check the installed plugin ID before replacing a legacy copy."
+                            }
+                            Copy {
+                                visible: !!root.pluginUpdate.checked_at
+                                text: "Last checked: " + (root.pluginUpdate.checked_at || "")
+                                font.pixelSize: 12
+                                opacity: .65
+                            }
+                        }
                         Section {
                             title: "Firmware updates"
                             subtitle: "Check Sennheiser's official firmware catalog"

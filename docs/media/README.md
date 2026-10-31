@@ -27,7 +27,7 @@ not implemented; the Updates tab checks versions and links to official software.
 | --- | --- |
 | ![Five-band graphic EQ editor with presets and its playback status](graphic-eq.png) | ![Parametric EQ band cards with filter, frequency, gain and Q controls](parametric-eq.png) |
 
-![Firmware checks with installed and official catalog versions](updates.png)
+![Plugin update checks with the installed plugin version and a separate device firmware section](updates.png)
 
 Captured on 2026-10-30. Values reflect the connected devices at capture time;
 help diagrams are conceptual illustrations, not measured frequency responses.

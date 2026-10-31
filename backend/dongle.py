@@ -60,6 +60,20 @@ class Dongle:
             self.lib.hid_close(self.handle)
             self.handle = None
 
+    def is_present(self):
+        """Inspect the host device list without sending any HID reports."""
+        devices = self.lib.hid_enumerate(0x3542, 0x3001)
+        current = devices
+        try:
+            while current:
+                info = current.contents
+                if info.usage_page == 0xFFA2 and info.usage == 1:
+                    return True
+                current = info.next
+            return False
+        finally:
+            self.lib.hid_free_enumeration(devices)
+
     def command(self, command, payload=b''):
         if len(payload) > 60:
             raise ValueError('HID payload exceeds 60 bytes')

@@ -35,6 +35,8 @@ Before changing code:
 - `backend/reconnect.py`: remembered connection target and bounded retry delays.
 - `backend/presets.py`: local parametric EQ drafts.
 - `backend/firmware.py`: on-demand official HTTPS catalog checks only.
+- `backend/plugin_updates.py`: on-demand public GitHub Release checks using the
+  local manifest version. No credentials, automatic checks or installation.
 - `backend/build_helper.py`, `native/sdp-channel.c`: compile and cache the SDP
   discovery helper locally. Do not commit the generated executable.
 - `tests/`: mock protocol, validation, controller, reconnect and UI-rule checks.
@@ -44,8 +46,12 @@ Before changing code:
 - Keep one shared hardware controller, including on multiple monitors. Do not
   start independent hardware workers for each popup or monitor. Avoid launching
   standalone hardware probes while the shared controller owns the devices.
-- Polling and reconnection read settings; they must not write settings or replay
-  failed commands. Keep hardware commands serialized through the controller.
+- Idle maintenance uses host-side USB enumeration and passive socket checks,
+  without bulk HID/GAIA status requests. Repeated status queries caused playback
+  crackles in a listening comparison. Read settings on open, explicit refresh,
+  control changes, or a new connection; keep local preset operations free of
+  device queries. Never replay failed writes during reconnection. Keep hardware
+  commands serialized through the controller.
 - Validate an entire setting request before writing. Multi-command writes can
   still partially succeed; report that possibility and invalidate affected data
   so the user can read it again.

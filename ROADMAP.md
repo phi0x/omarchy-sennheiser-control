@@ -63,7 +63,9 @@ plugin ID (`phi0x.sennheiser`).
 2. Add focused tests, complete relevant hardware validation, and document exactly
    what was tested and what remains unsupported.
 3. Merge a ready feature, bump the version in `manifest.json`, update the README,
-   and tag a release with notes describing behavior changes and limitations.
+   and publish a stable GitHub Release tagged `vMAJOR.MINOR.PATCH`, with notes
+   describing behavior changes and limitations. The in-app plugin checker uses
+   published Releases; a Git push or bare tag alone does not advertise an update.
 4. If the plugin is listed in the marketplace, use its [verification/update
    process](https://github.com/omacom/omarchy-plugin-marketplace/blob/main/VERIFICATION.md)
    to request review and publication of the exact new commit. An upstream push

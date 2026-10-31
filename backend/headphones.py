@@ -3,6 +3,7 @@
 """HDB 630 GAIA v3 control over a separate Bluetooth Classic connection."""
 import math
 import re
+import select
 import socket
 import struct
 import subprocess
@@ -112,6 +113,29 @@ class Headphones:
         if len(data) < minimum:
             raise ValueError(f'Short headphone reply for 0x{command:04x}')
         return data
+
+    def poll_connection(self):
+        """Detect socket loss and drain notifications without sending commands."""
+        if not self.sock:
+            return False
+        try:
+            # Requests are serialized, so between requests only unsolicited
+            # notifications can remain. Bound draining to avoid busy loops.
+            for _ in range(64):
+                if not select.select([self.sock], [], [], 0)[0]:
+                    return True
+                try:
+                    data = self.sock.recv(4096, socket.MSG_DONTWAIT)
+                except BlockingIOError:
+                    return True
+                if not data:
+                    self.close()
+                    return False
+                self.frames.feed(data)
+            return True
+        except (OSError, ValueError):
+            self.close()
+            return False
 
     def status(self):
         values, errors = {}, {}

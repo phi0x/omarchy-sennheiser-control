@@ -12,6 +12,7 @@ from headphones import Headphones
 from reconnect import Reconnector
 from presets import Presets
 from firmware import check as check_firmware
+from plugin_updates import installed as plugin_info, check as check_plugin_updates
 
 
 def devices():
@@ -35,23 +36,37 @@ def run():
     headphones = Headphones()
     reconnect = Reconnector(headphones, devices)
     presets = Presets()
-    state = dict(dongle={}, headphones={}, devices=[], message='', busy=False)
+    state = dict(dongle={}, headphones={}, devices=[], message='', busy=False,
+                 plugin=plugin_info())
     def emit():
         print(json.dumps(state, allow_nan=False), flush=True)
-    def refresh():
+    def refresh(full=True):
+        # Bulk HID/GAIA reads can disturb wireless playback. Idle maintenance
+        # checks host-side presence/socket state, retaining the last snapshot.
+        # Read settings only on an explicit request or a new device connection.
         nonlocal dongle
         try:
             if dongle is None:
                 dongle = Dongle()
-            state['dongle'] = dongle.status()
+            if not full and not dongle.is_present():
+                dongle.close()
+                state['dongle'] = dict(connected=False, error='BTD 700 not found. Plug in the dongle and retry.')
+            elif full or not state['dongle'].get('connected'):
+                state['dongle'] = dongle.status()
         except Exception as exc:
             if dongle:
                 dongle.close()
             state['dongle'] = dict(connected=False, error=str(exc))
+        was_connected = bool(headphones.sock)
+        if not full and was_connected and not headphones.poll_connection():
+            reconnect.lost()
+            state.pop('peq', None)
+            state.pop('graphic', None)
         reconnect.poll()
         if headphones.sock:
             try:
-                state['headphones'] = headphones.status()
+                if full or not was_connected:
+                    state['headphones'] = headphones.status()
             except Exception as exc:
                 reconnect.lost()
                 state.pop('peq', None)
@@ -82,7 +97,7 @@ def run():
                 if b'\n' not in input_buffer:
                     ready, _, _ = select.select([input_fd], [], [], 5)
                     if not ready:
-                        refresh()
+                        refresh(full=False)
                         continue
                     chunk = os.read(input_fd, 65536)
                     if not chunk:
@@ -96,7 +111,7 @@ def run():
             else:
                 ready, _, _ = select.select([sys.stdin], [], [], 5)
                 if not ready:
-                    refresh()
+                    refresh(full=False)
                     continue
                 line = sys.stdin.readline()
                 if not line:
@@ -146,6 +161,9 @@ def run():
                     if headphones.sock:
                         installed['headphones'] = headphones.status()['values'].get('firmware')
                     state['firmware_check'] = check_firmware(installed)
+                elif action == 'plugin_update_check':
+                    state['plugin'] = plugin_info()
+                    state['plugin_update'] = check_plugin_updates(state['plugin']['version'])
                 elif action == 'broadcast_read':
                     state['broadcast'] = dongle.broadcast()
                 elif action == 'broadcast_write':
@@ -197,7 +215,8 @@ def run():
                 if action in ('peq_read', 'peq_write', 'preset_load'):
                     state['peq_revision'] = state.get('peq_revision', 0) + 1
                 state['busy'] = False
-            refresh()
+            refresh(full=action not in ('preset_save', 'preset_load', 'preset_delete',
+                                       'paired_read', 'plugin_update_check'))
     finally:
         reconnect.close()
         if dongle:
