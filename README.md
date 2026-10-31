@@ -12,6 +12,10 @@ Device control stays local. On-demand firmware checks contact Sennheiser’s off
 > compatibility, reliability, or recovery outcome is guaranteed. The license
 > contains the full disclaimer; mandatory legal rights are not excluded.
 
+![Sennheiser Control showing dongle settings, the transparency guide and parametric EQ](preview.png)
+
+[View screenshots and the animated WebP walkthrough](docs/media/README.md).
+
 ## Install or update
 
 Requires Omarchy Quattro's Quickshell plugin system on Linux, Python 3.12+,
