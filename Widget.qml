@@ -149,7 +149,9 @@ Panel {
         background: Rectangle {
             radius: 4
             color: actionButton.down || actionButton.checked ? Qt.alpha(Commons.Color.accent, 0.24) : Qt.alpha(Commons.Color.foreground, actionButton.hovered ? 0.14 : 0.07)
-            border.width: actionButton.activeFocus ? 1 : 0
+            // Opening the panel assigns focus automatically; only keyboard
+            // navigation should draw a ring distinct from the selected tab.
+            border.width: actionButton.visualFocus ? 1 : 0
             border.color: Commons.Color.accent
         }
         contentItem: Text {
@@ -412,15 +414,35 @@ Panel {
                 Layout.fillHeight: true
                 Layout.minimumHeight: 80
                 clip: true
-                // Keep a permanent gutter, even when the scrollbar fades out.
+                // Reserve a separate lane so the draggable bar never covers controls.
                 rightPadding: Math.max(Style.space(12), verticalScroll.implicitWidth) + Style.space(8)
                 contentWidth: availableWidth
                 contentHeight: panelContent.implicitHeight
                 Controls.ScrollBar.horizontal.policy: Controls.ScrollBar.AlwaysOff
                 Controls.ScrollBar.vertical: Controls.ScrollBar {
                     id: verticalScroll
+                    parent: settingsScroll
+                    x: settingsScroll.width - width
+                    y: settingsScroll.topPadding
+                    width: implicitWidth
+                    height: settingsScroll.availableHeight
+                    implicitWidth: Style.space(18)
+                    orientation: Qt.Vertical
                     policy: Controls.ScrollBar.AsNeeded
-                    active: size < 1
+                    visible: size < 1
+                    interactive: true
+                    hoverEnabled: true
+                    padding: Style.space(4)
+                    minimumSize: Math.min(1, Style.space(40) / Math.max(1, height))
+                    Accessible.name: "Settings scroll bar"
+                    contentItem: Rectangle {
+                        radius: width / 2
+                        color: Qt.alpha(Commons.Color.accent, verticalScroll.pressed ? 1 : verticalScroll.hovered ? .85 : .6)
+                    }
+                    background: Rectangle {
+                        radius: width / 2
+                        color: Qt.alpha(Commons.Color.foreground, verticalScroll.hovered ? .12 : .06)
+                    }
                 }
                 ColumnLayout {
                     id: panelContent

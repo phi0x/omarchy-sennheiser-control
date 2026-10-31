@@ -12,7 +12,7 @@ Device control stays local. On-demand firmware checks contact Sennheiser’s off
 > compatibility, reliability, or recovery outcome is guaranteed. The license
 > contains the full disclaimer; mandatory legal rights are not excluded.
 
-![Sennheiser Control showing dongle settings, the transparency guide and parametric EQ](preview.png)
+![Sennheiser Control showing dongle settings, the transparency guide and graphic EQ](preview.png)
 
 [View screenshots and the animated WebP walkthrough](docs/media/README.md).
 
@@ -122,7 +122,11 @@ the [protocol notes](https://github.com/hatemosphere/hdb630-control-macos/blob/m
 
 The popup groups related controls into bordered sections. Its tabs and refresh
 button remain visible while the settings scroll; each EQ band has its own card.
-A dedicated scrollbar gutter keeps help icons clear of the scroll track.
+A visible scrollbar stays in a dedicated right-hand gutter whenever the page
+overflows. Drag its thumb or click the track to scroll without a wheel or touchpad
+gesture; the gutter keeps help icons clear. The thumb retains a minimum size on
+long EQ pages. Tab shading marks the selected page; focus outlines appear only
+during keyboard navigation.
 
 Headphone controls remember the last explicitly selected paired headset in
 `~/.local/state/sennheiser-control/connection.json` (or `$XDG_STATE_HOME`). After

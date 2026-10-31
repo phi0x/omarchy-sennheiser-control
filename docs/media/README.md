@@ -8,7 +8,8 @@ other desktop content are excluded.
 
 ![Animated tour of dongle controls, headphones, transparency help, EQ editors and firmware checks](walkthrough.webp)
 
-The silent, looping WebP shows tab navigation, scrolling and opening help cards.
+The silent, looping WebP shows tab navigation, dragging the visible scrollbar,
+scrolling through EQ editors and opening help cards.
 No headphone settings were changed while recording. Firmware installation is
 not implemented; the Updates tab checks versions and links to official software.
 
